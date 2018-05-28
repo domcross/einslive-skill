@@ -17,7 +17,8 @@ __author__ = 'domcross'
 LOGGER = getLogger(__name__)
 
 
-EINSLIVE_URL = 'https://wdr-1live-live.icecastssl.wdr.de/wdr/1live/live/mp3/128/stream.mp3'
+#EINSLIVE_URL = 'https://wdr-1live-live.icecastssl.wdr.de/wdr/1live/live/mp3/128/stream.mp3'
+EINSLIVE_URL = 'http://wdr-1live-live.icecast.wdr.de/wdr/1live/live/mp3/128/stream.mp3'
 #DRADIO_URL = 'http://st02.dlf.de/dlf/02/128/mp3/stream.mp3'
 #NOVA_URL = 'http://st03.dlf.de/dlf/03/128/mp3/stream.mp3'
 
