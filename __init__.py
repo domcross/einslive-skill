@@ -17,11 +17,13 @@ __author__ = 'domcross'
 LOGGER = getLogger(__name__)
 
 
-#EINSLIVE_URL = 'https://wdr-1live-live.icecastssl.wdr.de/wdr/1live/live/mp3/128/stream.mp3'
 EINSLIVE_URL = 'http://wdr-1live-live.icecast.wdr.de/wdr/1live/live/mp3/128/stream.mp3'
-#DRADIO_URL = 'http://st02.dlf.de/dlf/02/128/mp3/stream.mp3'
-#NOVA_URL = 'http://st03.dlf.de/dlf/03/128/mp3/stream.mp3'
-
+EINSLIVE_DIGGI_URL = 'http://wdr-1live-diggi.icecast.wdr.de/wdr/1live/diggi/mp3/128/stream.mp3'
+EINSLIVE_PLAN_B_URL = 'http://wdr-1live-planb.icecast.wdr.de/wdr/1live/planb/mp3/128/stream.mp3'
+EINSLIVE_DJ_SESSION_URL = 'http://wdr-1live-djsession.icecast.wdr.de/wdr/1live/djsession/mp3/128/stream.mp3'
+EINSLIVE_NEU_URL = 'http://wdr-1live-neufuerdensektor.icecast.wdr.de/wdr/1live/neufuerdensektor/mp3/128/stream.mp3'
+EINSLIVE_SPECIAL_URL = 'http://wdr-1live-specials.icecast.wdr.de/wdr/1live/specials/mp3/128/stream.mp3'
+EINSLIVE_HIPHOP_URL = 'http://wdr-1live-hiphop.icecast.wdr.de/wdr/1live/hiphop/mp3/128/stream.mp3'
 
 class EinsliveSkill(MycroftSkill):
     def __init__(self):
@@ -32,57 +34,40 @@ class EinsliveSkill(MycroftSkill):
         if AudioService:
             self.audioservice = AudioService(self.emitter)
 
-        #whatson_dlf_intent = IntentBuilder("WhatsonDlfIntent").\
-        #                 require("WhatsonKeyword").\
-        #                 require("DlfKeyword").build()
-        #self.register_intent(whatson_dlf_intent, self.handle_whatson_dlf_intent)
-
-        #whatson_dradio_intent = IntentBuilder("WhatsonDradioIntent").\
-        #                        require("WhatsonKeyword").\
-        #                        require("DradioKeyword").build()
-        #self.register_intent(whatson_dradio_intent,
-        #                     self.handle_whatson_dradio_intent)
-
-        #whatson_nova_intent = IntentBuilder("WhatsonNovaIntent").\
-        #                      require("WhatsonKeyword").\
-        #                      require("NovaKeyword").build()
-        #self.register_intent(whatson_nova_intent,
-        #                     self.handle_whatson_nova_intent)
-
         einslive_intent = IntentBuilder("EinsliveIntent").\
                      require("EinsliveKeyword").require("PlayKeyword").build()
         self.register_intent(einslive_intent, self.handle_einslive_intent)
 
-        #dradio_intent = IntentBuilder("DradioIntent").\
-        #                require("DradioKeyword").require("PlayKeyword").build()
-        #self.register_intent(dradio_intent, self.handle_dradio_intent)
+        einslive_diggi_intent = IntentBuilder("EinsliveDiggiIntent").\
+                     require("EinsliveDiggiKeyword").require("PlayKeyword").build()
+        self.register_intent(einslive_diggi_intent, self.handle_einslive_diggi_intent)
 
-        #nova_intent = IntentBuilder("NovaIntent").\
-        #              require("NovaKeyword").require("PlayKeyword").build()
-        #self.register_intent(nova_intent, self.handle_nova_intent)
+        einslive_planb_intent = IntentBuilder("EinslivePlanbIntent").\
+                     require("EinslivePlanbKeyword").require("PlayKeyword").build()
+        self.register_intent(einslive_planb_intent, self.handle_einslive_planb_intent)
 
-    # def handle_whatson_dlf_intent(self, message):
-    #     r = requests.get('http://www.deutschlandfunk.de')
-    #     soup = BeautifulSoup(r.text)
-    #     for el in soup.find_all(id='dlf-player-jetzt-im-radio'):
-    #         for a_el in el.find_all('a'):
-    #             self.speak_dialog("currently",
-    #                               { "station": "dlf", "title": a_el.string})
+        einslive_dj_intent = IntentBuilder("EinsliveDjIntent").\
+                     require("EinsliveDjKeyword").require("PlayDjKeyword").build()
+        self.register_intent(einslive_dj_intent, self.handle_einslive_dj_intent)
 
-    # def handle_whatson_dradio_intent(self, message):
-    #     r = requests.get('http://www.deutschlandfunkkultur.de/')
-    #     soup = BeautifulSoup(r.text)
-    #     for el in soup.find_all(id='drk-player-jetzt-im-radio'):
-    #         for a_el in el.find_all('a'):
-    #             self.speak_dialog("currently",
-    #                               { "station": "dlf culture", "title": a_el.string})
+        einslive_neu_intent = IntentBuilder("EinsliveNeuIntent").\
+                     require("EinsliveNeuKeyword").require("PlayKeyword").build()
+        self.register_intent(einslive_neu_intent, self.handle_einslive_neu_intent)
 
-    # def handle_whatson_nova_intent(self, message):
-    #     r = requests.get('https://www.deutschlandfunknova.de/actions/dradio/playlist/onair')
-    #     j = r.json()
-    #
-    #     self.speak_dialog("currently",
-    #                       {"station": "dlf nova", "title": j['show']['title']})
+        einslive_special_intent = IntentBuilder("EinsliveSpecialIntent").\
+                     require("EinsliveSpecialKeyword").require("PlayKeyword").build()
+        self.register_intent(einslive_special_intent, self.handle_einslive_special_intent)
+
+        einslive_hiphop_intent = IntentBuilder("EinsliveHiphopIntent").\
+                     require("EinsliveHiphopKeyword").require("PlayKeyword").build()
+        self.register_intent(einslive_hiphop_intent, self.handle_einslive_hiphop_intent)
+
+    def handle_whatson_einslive_intent(self, message):
+        r = requests.get('http://www1.wdr.de/radio/1live/index.html')
+        soup = BeautifulSoup(r.text)
+        for el in soup.find_all(span='wdrCurrentShowTitleTitle'):
+                self.speak_dialog("currently",
+                                  { "station": "einslive", "title": el.string})
 
     def handle_einslive_intent(self, message):
         if self.audioservice:
@@ -90,17 +75,42 @@ class EinsliveSkill(MycroftSkill):
         else:
             self.process = play_mp3(EINSLIVE_URL)
 
-    # def handle_dradio_intent(self, message):
-    #     if self.audioservice:
-    #         self.audioservice.play(DRADIO_URL, message.data['utterance'])
-    #     else:
-    #         self.process = play_mp3(DRADIO_URL)
+    def handle_einslive_diggi_intent(self, message):
+        if self.audioservice:
+            self.audioservice.play(EINSLIVE_DIGGI_URL, message.data['utterance'])
+        else:
+            self.process = play_mp3(EINSLIVE_DIGGI_URL)
 
-    # def handle_nova_intent(self, message):
-    #     if self.audioservice:
-    #         self.audioservice.play(NOVA_URL, message.data['utterance'])
-    #     else:
-    #         self.process = play_mp3(NOVA_URL)
+    def handle_einslive_planb_intent(self, message):
+        if self.audioservice:
+            self.audioservice.play(EINSLIVE_PLAN_B_URL, message.data['utterance'])
+        else:
+            self.process = play_mp3(EINSLIVE_PLAN_B_URL)
+
+    def handle_einslive_dj_intent(self, message):
+        if self.audioservice:
+            self.audioservice.play(EINSLIVE_DJ_SESSION_URL, message.data['utterance'])
+        else:
+            self.process = play_mp3(EINSLIVE_DJ_SESSION_URL)
+
+    def handle_einslive_neu_intent(self, message):
+        if self.audioservice:
+            self.audioservice.play(EINSLIVE_NEU_URL, message.data['utterance'])
+        else:
+            self.process = play_mp3(EINSLIVE_NEU_URL)
+
+    def handle_einslive_special_intent(self, message):
+        if self.audioservice:
+            self.audioservice.play(EINSLIVE_SPECIAL_URL, message.data['utterance'])
+        else:
+            self.process = play_mp3(EINSLIVE_SPECIAL_URL)
+
+    def handle_einslive_hiphop_intent(self, message):
+        if self.audioservice:
+            self.audioservice.play(EINSLIVE_HIPHOP_URL, message.data['utterance'])
+        else:
+            self.process = play_mp3(EINSLIVE_HIPHOP_URL)
+
 
     def stop(self):
         pass
