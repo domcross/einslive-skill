@@ -69,8 +69,10 @@ class EinsliveSkill(MycroftSkill):
 
     def handle_whatson_einslive_intent(self, message):
         r = requests.get('https://www1.wdr.de/radio/1live/index.html')
+        LOGGER.debug(r.text)
         soup = BeautifulSoup(r.text)
         for el in soup.find_all(span='wdrrCurrentShowTitleTitle'):
+                LOGGER.debug(el.string)
                 self.speak_dialog("currently",
                                   { "station": "einslive", "title": el.string})
 
