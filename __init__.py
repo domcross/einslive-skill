@@ -34,6 +34,11 @@ class EinsliveSkill(MycroftSkill):
         if AudioService:
             self.audioservice = AudioService(self.emitter)
 
+        whatson_einslive_intent = IntentBuilder("WhatsonEinsliveIntent").\
+                         require("WhatsonKeyword").\
+                         require("EinsliveKeyword").build()
+        self.register_intent(whatson_einslive_intent, self.handle_whatson_einslive_intent)
+
         einslive_intent = IntentBuilder("EinsliveIntent").\
                      require("EinsliveKeyword").require("PlayKeyword").build()
         self.register_intent(einslive_intent, self.handle_einslive_intent)
