@@ -10,4 +10,4 @@ Play EinsLive streams and query schedule
 * "Hey Mycroft, what's on one live"
 
 ## Credits
-@domcross, @ofosos
+@domcross, @ofosos 

@@ -50,7 +50,7 @@ class EinsliveSkill(MycroftSkill):
 
         einslive_intent = IntentBuilder("EinsliveIntent").\
                      require("EinsliveKeyword").require("PlayKeyword").build()
-        self.register_intent(einslive_intent, self.handle_dlf_intent)
+        self.register_intent(einslive_intent, self.handle_einslive_intent)
 
         #dradio_intent = IntentBuilder("DradioIntent").\
         #                require("DradioKeyword").require("PlayKeyword").build()
