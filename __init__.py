@@ -68,9 +68,9 @@ class EinsliveSkill(MycroftSkill):
         self.register_intent(einslive_hiphop_intent, self.handle_einslive_hiphop_intent)
 
     def handle_whatson_einslive_intent(self, message):
-        r = requests.get('http://www1.wdr.de/radio/1live/index.html')
+        r = requests.get('https://www1.wdr.de/radio/1live/index.html')
         soup = BeautifulSoup(r.text)
-        for el in soup.find_all(span='wdrCurrentShowTitleTitle'):
+        for el in soup.find_all(span='wdrrCurrentShowTitleTitle'):
                 self.speak_dialog("currently",
                                   { "station": "einslive", "title": el.string})
 
