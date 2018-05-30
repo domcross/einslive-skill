@@ -74,6 +74,7 @@ class EinsliveSkill(MycroftSkill):
         title = firstplaylistentry[0].text.strip('\r\n')
         artist = firstplaylistentry[1].text.strip('\r\n')
         lastplayed = "%s by %s" % (title, artist)
+        print(lastplayed)
         self.speak_dialog("currently",
                             { "station": "einslive", "title": lastplayed})
 
